@@ -486,7 +486,7 @@ if __name__ == "__main__":
         key2 = ''
         key2 = key2.join(random.choices(string.ascii_letters + string.digits, k=8))
 
-        ciphertext2 = encrypt(ciphertext1, key2)
+        ciphertext2 = decrypt(ciphertext1, key2)
 
         # third round of DES
         # generate random 64bit key (gets reduced to 56bit in key scheduling)
@@ -498,7 +498,7 @@ if __name__ == "__main__":
         print("Encrypted text: ", ciphertext3)
 
         decrypt1 = decrypt(ciphertext3, key3)
-        decrypt2 = decrypt(decrypt1, key2)
+        decrypt2 = encrypt(decrypt1, key2)
         decrypt3 = decrypt(decrypt2, key1)
 
         # plaintext = decrypt(ciphertext, key)
