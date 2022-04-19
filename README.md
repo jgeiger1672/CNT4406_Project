@@ -21,3 +21,7 @@ The encryption function takes in the plaintext and the randomly generated 64-bit
 The decryption function takes in the same key as used for encryption and the ciphertext, and returns the plaintext. Decryption implements the same exact process as the encryption algorithm. The only difference between encryption and decryption is that decryption uses the sixteen round keys in reverse order.
 
 The permutation orders for key generation, initial permutation, intermediate permutation, expansion permutation, PC-2, and the S1-S8 S-boxes are included at the top of the file in the form of arrays. These permutation orders are standard and were obtained from https://en.wikipedia.org/wiki/DES_supplementary_material.
+
+# Graphical Overview of the DES algorithm:
+
+![Block-diagram-of-DES-algorithm](https://user-images.githubusercontent.com/65304336/164034099-895ebea3-ce53-45cb-a497-f61eea479dfe.png)
