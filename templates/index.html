@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<body style="background-color: beige">
+   <h1>Triple DES Encryption</h1>
+
+   <p>
+       This tool uses the Triple DES algorithm to encrypt plaintext into ciphertext, and vice versa.<br><br>
+
+       To use the tool for encryption, enter the plaintext you want to encrypt, and any keys that you want to use<br>
+       (You may leave the keys blank to use random keys).<br><br>
+
+       To use the tool for decryption, leave the Plaintext field blank, and enter the keys and ciphertext that you want to decrypt.<br><br>
+
+       Note that if the Plaintext and Ciphertext fields are left blank, the tool will simply encrypt the empty string, which will<br>
+       result in another empty string.
+   </p>
+
+    <form action="/" method="post">
+
+        <label for="Plaintext">Plaintext: </label>
+        <input type="text" id="Plaintext" name="Plaintext" value="{{P}}"><br><br>
+
+        <label for="Key1">First 64-Bit Key (Leave blank for random key): </label>
+        <input type="text" id="Key1" name="Key1" value="{{K1}}"><br><br>
+
+        <label for="Key2">Second 64-Bit Key (Leave blank for random key): </label>
+        <input type="text" id="Key2" name="Key2" value="{{K2}}"><br><br>
+
+        <label for="Key3">Third 64-Bit Key (Leave blank for random key): </label>
+        <input type="text" id="Key3" name="Key3" value="{{K3}}"><br><br>
+
+        <label for="Ciphertext">Encrypted Ciphertext: </label>
+        <input type="text" id="Ciphertext" name="Ciphertext" value="{{C}}"><br><br>
+
+        <input type="submit" name=encrypt value="Encrypt/Decrypt">
+
+
+</body>
+</html>

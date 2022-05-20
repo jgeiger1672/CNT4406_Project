@@ -2,6 +2,69 @@
 import random
 import string
 from datetime import datetime
+from flask import *
+
+app = Flask(__name__)
+app.secret_key = b'_5#y3L"F4Q8z\n\xec]/'
+
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'GET':
+        return render_template('index.html')
+
+    elif request.method == 'POST':
+        seed = str(datetime.now())
+        random.seed(seed)
+
+        # if ciphertext and all 3 keys are provided, and plaintext is empty, then decrypt the ciphertext into plaintext
+        if request.form['Plaintext'] == ''\
+        and request.form['Ciphertext'] != ''\
+        and request.form['Key1'] != ''\
+        and request.form['Key2'] != ''\
+        and request.form['Key3'] != '':
+
+            key1 = request.form['Key1']
+            key2 = request.form['Key2']
+            key3 = request.form['Key3']
+            ciphertext = request.form['Ciphertext']
+
+            decrypt1 = decrypt(ciphertext, key3)
+            decrypt2 = encrypt(decrypt1, key2)
+            decrypt3 = decrypt(decrypt2, key1)
+
+            return render_template('index.html', P=decrypt3, K1=key1, K2=key2, K3=key3, C=ciphertext)
+
+        # else, encrypt the plaintext
+        else:
+
+            # if key fields left blank, generate random key
+            if request.form['Key1'] == "":
+                key1 = ''
+                key1 = key1.join(random.choices(string.ascii_letters + string.digits, k=8))
+            else:
+                key1 = request.form['Key1']
+
+            if request.form['Key2'] == "":
+                key2 = ''
+                key2 = key2.join(random.choices(string.ascii_letters + string.digits, k=8))
+            else:
+                key2 = request.form['Key2']
+
+            if request.form['Key3'] == "":
+                key3 = ''
+                key3 = key3.join(random.choices(string.ascii_letters + string.digits, k=8))
+            else:
+                key3 = request.form['Key3']
+
+            plaintext = request.form['Plaintext']
+
+            ciphertext1 = encrypt(plaintext, key1)
+            ciphertext2 = decrypt(ciphertext1, key2)
+            ciphertext3 = encrypt(ciphertext2, key3)
+
+            return render_template('index.html', P=plaintext, K1=key1, K2=key2, K3=key3, C=ciphertext3)
+
 
 # Constants
 BITLEN64 = 64
@@ -461,46 +524,8 @@ def DES(num, key, encrypt):
 
 
 if __name__ == "__main__":
+    app.run(debug=True)
 
-    seed = str(datetime.now())
-    random.seed(seed)
-
-    user_input = ""
-
-    while 1:
-        user_input = input("Enter a string to encrypt ('exit' to quit): ")
-
-        if user_input == "exit":
-            break
-
-        # first round of DES
-
-        # generate random 64bit key (gets reduced to 56bit in key scheduling)
-        key1 = ''
-        key1 = key1.join(random.choices(string.ascii_letters + string.digits, k=8))
-
-        ciphertext1 = encrypt(user_input, key1)
-
-        # second round of DES
-        # generate random 64bit key (gets reduced to 56bit in key scheduling)
-        key2 = ''
-        key2 = key2.join(random.choices(string.ascii_letters + string.digits, k=8))
-
-        ciphertext2 = decrypt(ciphertext1, key2)
-
-        # third round of DES
-        # generate random 64bit key (gets reduced to 56bit in key scheduling)
-        key3 = ''
-        key3 = key3.join(random.choices(string.ascii_letters + string.digits, k=8))
-
-        ciphertext3 = encrypt(ciphertext2, key3)
-
-        print("Encrypted text: ", ciphertext3)
-
-        decrypt1 = decrypt(ciphertext3, key3)
-        decrypt2 = encrypt(decrypt1, key2)
-        decrypt3 = decrypt(decrypt2, key1)
-
-        # plaintext = decrypt(ciphertext, key)
-        print("Decrypted text: ", decrypt3)
-
+# if port is already being used:
+# find: sudo lsof -i :<port#>
+# kill: kill -9 <PID>
